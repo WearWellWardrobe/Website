@@ -1,0 +1,380 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block title_block %}
+    Add Page
+{% endblock %}
+
+{% block body_block %}
+		<style>
+			
+			.movingTitle_input{
+				width:12rem;
+				height:5rem;
+				padding:5px;
+				font-size:2rem;
+				border::2px solid #ff0000;
+			}
+
+			.submitPageEditButton{
+				width:100%;
+				height:2.5rem;
+				padding:10px;
+				font-size:1rem;
+			}
+			
+			.titleStlye{
+				width:70%;
+				height:2.2rem;
+				padding:7px;
+				font-size:1.2rem;
+				font-weight: bold;  
+			}
+			
+			#examplePage{
+				width:48%;
+				padding:5px;
+				float:right;
+				border:2px solid #0000f0;
+				min-height:10rem;
+			}
+
+			.textImput{
+				width:100%;
+				height:10rem;
+			}
+			.pageNotes{
+				width:47%;
+				height:19rem;
+				text-align: left;
+				vertical-align: top; 
+				padding:3px;
+			}
+		
+		</style>
+
+	<div id="addPage">
+		<h1>Add Page</h1>
+		<div>
+			<form id="PageForm" method="post" enctype="multipart/form-data" action="{% url 'WearWellWardrobe:addPage' %}">
+				{% csrf_token %}
+				<div id="displayStylePart" style="padding:3px;">
+						{{form.displayStyle.label}}
+						{{form.displayStyle}}
+				</div>
+				
+				
+				<div id="examplePage">
+						<div id="staticDiv_title">
+							<div id="moving_title">
+				
+								{{ form.title.label}}
+								<span class="movingTitle_input">{{form.title}}</span><br>
+								{% if form.title.errors %}
+									<span class="addPage_errors">{{form.title.errors.0}}</span>
+								{% endif %}
+							</div>
+						</div>
+						
+						<div id="staticDiv_1">
+							<div id="moving_text1" class="movingText">
+								<br>
+								{{form.content1}}
+								{% if form.content1.errors %}
+									<span class="addPage_errors">{{form.content1.errors.0}}</span>
+								{% endif %}
+							</div>
+						</div>
+						
+						<div id="staticDiv_2">
+							<div id="moving_text2" class="movingText">
+								<br>
+								{{form.content2}}
+								{% if form.content2.errors %}
+									<span class="addPage_errors">{{form.content2.errors.0}}</span>
+								{% endif %}
+							</div>
+						</div>
+						
+						<div id="staticDiv_3">
+							<div id="moving_text3" class="movingText">
+								<br>
+								{{form.content3}}
+								{% if form.content3.errors %}
+									<span class="addPage_errors">{{form.content3.errors.0}}</span>
+								{% endif %}
+							</div>
+						</div>
+						
+						<div id="staticDiv_4">
+							<div id="moving_text4" class="movingText">
+								<br>
+								{{form.content4}}
+								{% if form.content4.errors %}
+									<span class="addPage_errors">{{form.content4.errors.0}}</span>
+								{% endif %}
+							</div>
+						</div>
+						
+						<div id="staticDiv_5">
+							<div id="moving_image" class="movingText">
+								<br>
+								{{ form.img1.label}}
+								{{form.img1}}
+								{% if form.img1.errors %}
+									<span class="addPage_errors">{{form.img1.errors.0}}</span>
+								{% endif %}
+							</div>
+						</div>
+					</div>
+					
+					<div>
+						<div style="padding:4px">{{ form.category.label}}
+						{{form.category}}
+						{% if form.category.errors %}
+							<span class="addPage_errors">{{form.category.errors.0}}</span>
+						{% endif %}<br>
+						</div>
+						<span id="pageNotesSpanSection" style="padding:4px">
+						{{ form.pageNotes.label}}<br>
+						{{form.pageNotes}}</span>
+						{% if form.pageNotes.errors %}
+							<span class="addPage_errors">{{form.pageNotes.errors.0}}</span>
+						{% endif %}
+						
+					</div><br>
+				<input type="submit" class="submitPageEditButton" name="submit" value="Create Page" />
+			</form>
+		</div>
+	</div>
+	<script>
+		// This first bit detects a change in the drop down box
+		document.addEventListener("DOMContentLoaded", function () {
+			const displayStyleField = document.getElementById("id_displayStyle");
+
+			// Listen for input changes on the integer field
+			displayStyleField.addEventListener("input", function () {
+				const value = parseInt(displayStyleField.value, 10); // Parse the input as an integer
+				checkDisplayStyle(value); // Pass the integer value to the function
+			});
+
+			// Call the function initially with the field's current value
+			const initialValue = parseInt(displayStyleField.value, 10); // Parse the initial value as an integer
+			checkDisplayStyle(initialValue);
+		});
+		
+		// the function that is called when
+		function checkDisplayStyle(value) {
+			console.log("Current value:", value);
+			switchTo(value)
+		}
+		
+		function switchTo(value){
+			if(value == 1){
+				pageType_1();
+			}else if (value == 2){
+				pageType_2();
+			}else if (value == 3){
+				pageType_3();
+			}else if (value == 4){
+				pageType_4();
+			}else if (value == 5){
+				pageType_5();
+			}else if (value == 6){
+				pageType_6();
+			}else{
+				pageType_1();
+			}
+		}
+		
+		function reassignDivs(innerDivID, outerDivID){
+			 const innerDiv = document.getElementById(innerDivID);
+			 const outerDiv = document.getElementById(outerDivID);
+			 
+			 if(innerDiv && outerDiv){
+				outerDiv.appendChild(innerDiv);
+			 }else{
+				console.log("Invalid IDs")
+			 }
+		
+		}
+		
+		function pageType_1(){
+		// generating divs: this should probably be in a function or something
+			var divs = [];
+			var staticDivTitle = document.getElementById("staticDiv_title");
+			var staticDiv1 = document.getElementById("staticDiv_1");
+			var staticDiv2 = document.getElementById("staticDiv_2");
+			var staticDiv3 = document.getElementById("staticDiv_3");
+			var staticDiv4 = document.getElementById("staticDiv_4");
+			var staticDiv5 = document.getElementById("staticDiv_5");
+
+			var movingDivTitle = document.getElementById("moving_title");
+			var movingDivC1 = document.getElementById("moving_text1");
+			var movingDivC2 = document.getElementById("moving_text2");
+			var movingDivC3 = document.getElementById("moving_text3");
+			var movingDivC4 = document.getElementById("moving_text4");
+			var movingDivIMG = document.getElementById("moving_image");
+			
+			
+			
+			staticDivTitle.appendChild(movingDivTitle); // Title is in the title position
+			staticDiv1.appendChild(movingDivC1); // Content page 1
+			staticDiv2.appendChild(movingDivC2); // Content page 2
+			staticDiv3.appendChild(movingDivC3); // Content page 3
+			staticDiv4.appendChild(movingDivC4); // Content page 4
+			staticDiv5.appendChild(movingDivIMG); // Image at the bottom
+			
+			
+		}
+		
+		function pageType_2(){
+		// generating divs: this should probably be in a function or something
+			var divs = [];
+			var staticDivTitle = document.getElementById("staticDiv_title");
+			var staticDiv1 = document.getElementById("staticDiv_1");
+			var staticDiv2 = document.getElementById("staticDiv_2");
+			var staticDiv3 = document.getElementById("staticDiv_3");
+			var staticDiv4 = document.getElementById("staticDiv_4");
+			var staticDiv5 = document.getElementById("staticDiv_5");
+
+			var movingDivTitle = document.getElementById("moving_title");
+			var movingDivC1 = document.getElementById("moving_text1");
+			var movingDivC2 = document.getElementById("moving_text2");
+			var movingDivC3 = document.getElementById("moving_text3");
+			var movingDivC4 = document.getElementById("moving_text4");
+			var movingDivIMG = document.getElementById("moving_image");
+			
+			
+			
+			staticDivTitle.appendChild(movingDivTitle); // Title is in the title position
+			staticDiv1.appendChild(movingDivIMG); // Image at the top
+			staticDiv2.appendChild(movingDivC1); // Content page 1
+			staticDiv3.appendChild(movingDivC2); // Content page 2
+			staticDiv4.appendChild(movingDivC3); // Content page 3
+			staticDiv5.appendChild(movingDivC4); // Content page 4
+			
+			
+			
+		}		
+		
+		function pageType_3(){
+		// generating divs: this should probably be in a function or something
+			var divs = [];
+			var staticDivTitle = document.getElementById("staticDiv_title");
+			var staticDiv1 = document.getElementById("staticDiv_1");
+			var staticDiv2 = document.getElementById("staticDiv_2");
+			var staticDiv3 = document.getElementById("staticDiv_3");
+			var staticDiv4 = document.getElementById("staticDiv_4");
+			var staticDiv5 = document.getElementById("staticDiv_5");
+
+			var movingDivTitle = document.getElementById("moving_title");
+			var movingDivC1 = document.getElementById("moving_text1");
+			var movingDivC2 = document.getElementById("moving_text2");
+			var movingDivC3 = document.getElementById("moving_text3");
+			var movingDivC4 = document.getElementById("moving_text4");
+			var movingDivIMG = document.getElementById("moving_image");
+			
+			
+			
+			staticDivTitle.appendChild(movingDivTitle); // Title is in the title position
+			staticDiv1.appendChild(movingDivC1); // content
+			staticDiv2.appendChild(movingDivIMG); // Image
+			staticDiv3.appendChild(movingDivC2); // Content page 2
+			staticDiv4.appendChild(movingDivC3); // Content page 3
+			staticDiv5.appendChild(movingDivC4); // Content page 4
+			
+			
+			
+		}
+		function pageType_4(){
+		// generating divs: this should probably be in a function or something
+			var divs = [];
+			var staticDivTitle = document.getElementById("staticDiv_title");
+			var staticDiv1 = document.getElementById("staticDiv_1");
+			var staticDiv2 = document.getElementById("staticDiv_2");
+			var staticDiv3 = document.getElementById("staticDiv_3");
+			var staticDiv4 = document.getElementById("staticDiv_4");
+			var staticDiv5 = document.getElementById("staticDiv_5");
+
+			var movingDivTitle = document.getElementById("moving_title");
+			var movingDivC1 = document.getElementById("moving_text1");
+			var movingDivC2 = document.getElementById("moving_text2");
+			var movingDivC3 = document.getElementById("moving_text3");
+			var movingDivC4 = document.getElementById("moving_text4");
+			var movingDivIMG = document.getElementById("moving_image");
+			
+			
+			
+			staticDivTitle.appendChild(movingDivTitle); // Title is in the title position
+			staticDiv1.appendChild(movingDivC1); // conent
+			staticDiv2.appendChild(movingDivC2); // Content page
+			staticDiv3.appendChild(movingDivIMG); // IMAGE
+			staticDiv4.appendChild(movingDivC3); // Content page 3
+			staticDiv5.appendChild(movingDivC4); // Content page 4
+			
+			
+			
+		}
+		function pageType_5(){
+		// generating divs: this should probably be in a function or something
+			var divs = [];
+			var staticDivTitle = document.getElementById("staticDiv_title");
+			var staticDiv1 = document.getElementById("staticDiv_1");
+			var staticDiv2 = document.getElementById("staticDiv_2");
+			var staticDiv3 = document.getElementById("staticDiv_3");
+			var staticDiv4 = document.getElementById("staticDiv_4");
+			var staticDiv5 = document.getElementById("staticDiv_5");
+
+			var movingDivTitle = document.getElementById("moving_title");
+			var movingDivC1 = document.getElementById("moving_text1");
+			var movingDivC2 = document.getElementById("moving_text2");
+			var movingDivC3 = document.getElementById("moving_text3");
+			var movingDivC4 = document.getElementById("moving_text4");
+			var movingDivIMG = document.getElementById("moving_image");
+			
+			
+			
+			staticDivTitle.appendChild(movingDivTitle); // Title is in the title position
+			staticDiv1.appendChild(movingDivC1); // 
+			staticDiv2.appendChild(movingDivC2); // Content page 1
+			staticDiv3.appendChild(movingDivC3); // Content page 2
+			staticDiv4.appendChild(movingDivIMG); // image
+			staticDiv5.appendChild(movingDivC4); // Content page 4
+			
+			
+			
+		}		
+		function pageType_6(){
+		// generating divs: this should probably be in a function or something
+			var divs = [];
+			var staticDivTitle = document.getElementById("staticDiv_title");
+			var staticDiv1 = document.getElementById("staticDiv_1");
+			var staticDiv2 = document.getElementById("staticDiv_2");
+			var staticDiv3 = document.getElementById("staticDiv_3");
+			var staticDiv4 = document.getElementById("staticDiv_4");
+			var staticDiv5 = document.getElementById("staticDiv_5");
+
+			var movingDivTitle = document.getElementById("moving_title");
+			var movingDivC1 = document.getElementById("moving_text1");
+			var movingDivC2 = document.getElementById("moving_text2");
+			var movingDivC3 = document.getElementById("moving_text3");
+			var movingDivC4 = document.getElementById("moving_text4");
+			var movingDivIMG = document.getElementById("moving_image");
+			
+			
+			
+			staticDivTitle.appendChild(movingDivTitle); // Title is in the title position
+			staticDiv1.appendChild(movingDivIMG); // Image at the top
+			staticDiv2.appendChild(movingDivC1); // Content page 1 (question)
+			staticDiv3.appendChild(movingDivC2); // Content page 2
+			staticDiv4.appendChild(movingDivC3); // Content page 3
+			staticDiv5.appendChild(movingDivC4); // Content page 4
+			
+			
+			
+		}
+		</script>
+
+{% endblock %}

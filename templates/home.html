@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block title_block %}
+    Home
+{% endblock %}
+
+{% block body_block %}
+	<div id="homePage">
+		<h1>Wear Well Wardrobe Database</h1>
+		<p>This site is to edit the pages for the wear well wardrobe App</p>
+		<p>Please log in to start editing</p>
+		<div style="width:120px;height:30px;background-color:#00ffff;
+					text-align:center;
+		border:2px soild #000000">
+			<!-- This link will need changing once log in avaible-->
+			<a href="{% url 'WearWellWardrobe:home'%}">
+				Log In		
+		</a></div>
+	</div>
+{% endblock %}

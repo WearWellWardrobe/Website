@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<!---->
+{% load static %}
+
+
+<html>	
+    <link rel="shortcut Icon" href="{% static 'favicon.ico' %}">
+    <head lang="en">
+        <meta charset="UTF-8" />
+        <title>
+			Wear Well Wardrobe - Edit Category
+		</title>
+
+        <!-- Mobile scaling -->
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+		<!-- Link to the Icons style sheet -->
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+		
+        <!-- CSS is now in static - though unsure if its acutally working -->
+        <link rel="stylesheet" href="{% static 'styles.css' %}">
+
+      
+
+        <script src=""></script>
+                <!-- Not sure if we want all javascript in one file or multiple? -->
+        <script src=""></script>
+
+	<!-- Custom block header stuff here-->
+    </head>
+
+	<body style="height:10rem">
+	
+	<style>
+		#categoryEditPage{
+			background-color:#ffffff;
+			height:100%;
+			width:100%;
+			padding:3px;
+			display:block;
+		}
+		.links, .links a:hover, .links a:visited, .links a:focus, .links a:active, .links a{
+			color:#000000;
+			text-decoration: none;
+		}		
+		.buttonClass{
+			width:98%;
+			border:3px solid black;
+			border-radius:5px;
+			background-color:#cce0ff;
+			text-align:center;
+			font-size:1rem;
+			align-items: center;
+			padding:3px;
+		}
+		.buttonClass:hover{
+			cursor: pointer;
+			background-color:#b3d1ff;
+		}
+		
+		
+		.catNameStyle{
+			font-size:1rem;
+			width:97%;
+			padding:3px;
+		}
+	</style>
+	
+	<div id="categoryEditPage">
+		<h3>Edit Category</h3>
+		<!-- may require a slug in this... how to obtain said slug?  -->
+		<form id="EditCategoryForm" class="theForm" enctype="multipart/form-data" method="post" action="{% url 'WearWellWardrobe:editCategory' category.ID %}">
+			{% csrf_token %}	
+			{{form.name}}<br><br>
+			<button class="buttonClass" id="12" type="submit" style="float:right">Change Name</button>
+		</form>
+	
+	</div>
+
+	</body>
+</html>

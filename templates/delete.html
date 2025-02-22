@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block title_block %}
+    Delete
+{% endblock %}
+
+{% block body_block %}
+	<style>
+		.links, .links a:hover, .links a:visited, .links a:focus, .links a:active, .links a{
+			color:#000000;
+			text-decoration: none;
+		}	
+		.pageButtons{
+			border:3px solid black;
+			border-radius:5px;
+			width:49%;
+			height:3rem;
+			background-color:#cce0ff;
+			text-align:center;
+			font-size:1.5rem;
+			align-items: center;	
+		}
+		.pageButtons:hover{
+			cursor: pointer;
+			background-color:#b3d1ff;
+		}
+		#deleteButton{
+			float:right;
+		}
+		#cancelButton{
+			float:left;
+		}
+
+	</style>
+	
+	<div id="deletePageSub">
+	
+		<h1>Are you sure you want to delete this page?</h1>
+		
+		<div id="previewDelete">
+			<table>
+				<tr>
+					<td>Page Title:</td>
+					<td>{{ page.title }}</td>
+				</tr>
+				<tr>
+					<td>Content:</td>
+					<td>{{ page.content1 }}</td>
+				</tr>	
+			</table>
+		</div><br>
+		<div id="delete_Buttons">
+			<form method="POST">
+				{% csrf_token %}
+				<button class="pageButtons" id="deleteButton" type="submit">Delete</button>
+			</form><!-- below are two different classes in the same bit.-->
+			<a href="{% url 'WearWellWardrobe:home' %}"><button class="pageButtons links" id="cancelButton">Cancel</button></a>
+	
+		</div><br><br><br>
+	
+	</div>
+	
+
+{% endblock %}

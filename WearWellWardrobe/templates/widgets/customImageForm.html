@@ -1,0 +1,39 @@
+<div class="custom-file-upload">
+    {% if widget.is_initial %}
+        <style>
+        /* Add any custom styling for your widget here */
+        </style>
+        <img class="imageOnForm" src="{{ widget.value.url }}" alt="Current Image" width="200px">
+        <br>
+        <label>Upload New Image:</label>
+    {% endif %}
+    
+    <!-- File input for image upload -->
+    <input type="{{ widget.type }}" name="{{ widget.name }}" 
+           {% for key, value in widget.attrs.items %} {{ key }}="{{ value }}" {% endfor %}>
+
+    <!-- Clear button to reset image and input field -->
+    <button type="button" class="clear-btn" onclick="clearImage()">Clear</button>
+
+    <!-- Hidden field to track if the user clicked "Clear" -->
+    <input type="hidden" name="clear_image" id="clear_image" value="false">
+
+</div>
+
+<script>
+    // JavaScript function to clear the image and input field
+    function clearImage() {
+        // Clear the file input field
+        const fileInput = document.querySelector('input[name="{{ widget.name }}"]');
+        fileInput.value = '';
+
+        // Optionally hide the image if it exists
+        const imageElement = document.querySelector('.imageOnForm');
+        if (imageElement) {
+            imageElement.style.display = 'none';
+        }
+
+        // Set the hidden field to true to inform Django that the image was cleared
+        document.getElementById('clear_image').value = true;
+    }
+</script>
