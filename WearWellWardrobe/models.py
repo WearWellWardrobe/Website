@@ -12,7 +12,7 @@ import uuid
 
 class Category(models.Model):
     name = models.CharField(max_length=128)
-    ID = models.AutoField(primary_key=True)
+    ID = models.AutoField(primary_key=True, unique=True)
     
     # if redoing teh DB, add extra potentiul colour feild for each categroy
     #colour = models. ---- something here.....
@@ -67,7 +67,13 @@ class Page(models.Model):
         
     def __str__(self):
         return self.title
-        
+
+class UserProfile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    website = models.URLField(blank=True, null=True, default="")
+
+    def __str__(self):
+        return self.user.username
         
         
         

@@ -9,26 +9,30 @@ from django.http import (
     HttpResponseNotFound,
     HttpResponseBadRequest,
 )
+
+
 from django.urls import reverse
 from django.contrib.auth import authenticate, login, logout, update_session_auth_hash
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import PasswordChangeForm, PasswordResetForm
 from django.contrib import messages
 from WearWellWardrobe import views
+
 ## Added Stuff for API`s
 from rest_framework.views import APIView
+from rest_framework.generics import ListAPIView
 from rest_framework.response import Response
 from rest_framework import status
 
 # from other pages
 from WearWellWardrobe.models import Category, Page
-from WearWellWardrobe.serializers import ItemSerializer
-from WearWellWardrobe.forms import PageForm, EditPageForm, EditCategoryForm
+from WearWellWardrobe.serializers import PageSerializer, ItemSerializer
+from WearWellWardrobe.forms import PageForm, EditPageForm, EditCategoryForm, UserForm, UserProfileForm
 
 
 
 def index(request):
-    return render(request, "home.html")
+    return render(request, "login.html")
 
 
 # log in required for the rest of these -> once its set up
@@ -36,7 +40,8 @@ def index(request):
 # the main page -> basically wants everything
 
 def home(request):
-    context_dict = {}
+    categories = Category.objects.all()
+    context_dict = {'category': categories}
     try:
         pages = Page.objects.all()
         cats = Category.objects.all()
@@ -171,6 +176,11 @@ class PageGet(APIView):
     #        serializer.save()
     #        return Response(serializer.data, status=status.HTTP_201_CREATED)
     #    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class PageListView(ListAPIView):
+    queryset = Page.objects.all()
+    serializer_class = PageSerializer
         
 class RecordDetail(APIView):
     def get(self, request, pk, format=None):
@@ -182,4 +192,47 @@ class RecordDetail(APIView):
         return Response(serializer.data)        
         
         
+def register(request):
+    registered = False
+    if request.method == 'POST':
+        user_form = UserForm(request.POST)
+        profile_form = UserProfileForm(request.POST)
+
+        if user_form.is_valid() and profile_form.is_valid():
+            user = user_form.save()
+            user.set_password(user.password)
+            user.save()
+
+            profile = profile_form.save(commit=False)
+            profile.user = user
+            profile.save()
+            registered = True
+        else:
+            print(user_form.errors, profile_form.errors)
+
+    else:
+        user_form = UserForm()
+        profile_form = UserProfileForm()
+    return render(request,'register.html',context = {'user_form': user_form, 'profile_form': profile_form, 'registered': registered})
+
+def user_login(request):
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        user = authenticate(username=username, password=password)
+        if user:
+            if user.is_active:
+                login(request, user)
+                return redirect(reverse('WearWellWardrobe:home'))
+            else:
+                return HttpResponse("Your account is disabled.")
+        else:
+            messages.error(request, "Invalid login details. Please try again.")
+            return redirect('WearWellWardrobe:login')  # Redirect back to the login page
+    else:
+        return render(request, 'login.html')
+
+
+
+
         

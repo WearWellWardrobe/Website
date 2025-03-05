@@ -1,7 +1,9 @@
 from django import forms
 
 from django.forms.widgets import ClearableFileInput
-from WearWellWardrobe.models import Page, Category
+from WearWellWardrobe.models import Page, Category, UserProfile
+from django.contrib.auth.models import User
+
 
 
 class CustomImageInput(ClearableFileInput):
@@ -116,4 +118,13 @@ class EditPageForm(forms.ModelForm):
         )
     
 
-   
+class UserForm(forms.ModelForm):
+    password = forms.CharField(widget=forms.PasswordInput())
+    class Meta:
+        model = User
+        fields = ('username', 'email', 'password',)
+
+class UserProfileForm(forms.ModelForm):
+    class Meta:
+        model = UserProfile
+        fields = []
