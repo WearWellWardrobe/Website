@@ -22,11 +22,15 @@ from WearWellWardrobe import views
 
 
 
+
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', views.index), # change the home part here to the log in
+    path('', views.index, name='home'), # change the home part here to the log in
     path('WearWellWardrobe/',include("WearWellWardrobe.urls")), # when its availbe
-    path('api/', include('WearWellWardrobe.urls')),  # Route all API URLs to wear well wardrobe
-    
+    path('api/', include(('WearWellWardrobe.urls', 'WearWellWardrobe'), namespace="WearWellWardrobe_api")),  # Route all API URLs to wear well wardrobe
+    #path('api_pages/', PageListView.as_view(), name='page-list'),
     
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+#if settings.DEBUG:
+#    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

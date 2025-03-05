@@ -30,8 +30,10 @@ SECRET_KEY = '+sb+(#p&tb9m9-$!*u+c0rd-7(uc19dh!zas-gii&7su1oqi!%'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
+# enables iframes
+X_FRAME_OPTIONS = 'SAMEORIGIN'
 
 # Application definition
 
