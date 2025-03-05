@@ -3,9 +3,15 @@
 import os
 import sys
 
+import django
+from populate import populate
 
 def main():
     os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'projectSite.settings')
+
+    if 'populate' in sys.argv:
+        populate()
+        sys.exit()
     try:
         from django.core.management import execute_from_command_line
     except ImportError as exc:
