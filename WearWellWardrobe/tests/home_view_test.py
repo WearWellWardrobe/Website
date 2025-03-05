@@ -26,7 +26,6 @@ class HomePageViewTests(TestCase):
     def test_mappings_exists(self):
         home_mapping_exists = False
         
-        # This is overridden. We need to manually check it exists.
         for mapping in self.project_urls_module.urlpatterns:
             if hasattr(mapping, 'name'):
                 if mapping.name == 'home':
