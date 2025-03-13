@@ -11,16 +11,17 @@ from WearWellWardrobe.models import Category, Page
 
 def populate():
     categories = {
-        "Access":{'ID':1,'name':'Access'},
-        "Storage":{'ID':2,'name':'Storage'},
-        "Maintain":{'ID':3,'name':'Maintain'},
-        "Landfill":{'ID':6,'name':'Landfill'},
-        "Disposal":{'ID':5,'name':'Disposal'},
-        "Adaptation":{'ID':4, 'name':"Adaptation"}
+        "Access":{'name':'Access'},         # 1
+        "Storage":{'name':'Storage'},       # 2
+        "Maintain":{'name':'Maintain'},     # 3
+        "Adaptation":{'name':"Adaptation"}, # 4    
+        "Disposal":{'name':'Disposal'},     # 5
+
+        "Landfill":{'name':'Landfill'},     # 6
     }
     
     for k,v in categories.items():
-        cat = Category.objects.create(
+        cat = Category.objects.get_or_create(
             name=v['name'],
             
         )
@@ -40,12 +41,14 @@ def populate():
         11:[4, "Adapt", "Bobbling and pilling can occur in loose knitted fabrics, and less so in densely knitted or woven fabrics.", "https://www.jmldirect.com/bobble-off-v3-bobble-and-lint-remover-keeps-fabrics-looking-brand-new?srsltid=AfmBOopv7j9DO308CfNvI-_4eLKTcA-Ba0CD8rlR1wlj3ZNayhEe9I_Chttps://www.oxfam.org.uk/oxfam-in-action/oxfam-blog/how-to-darn/ ", "", "", None, 1,  "A page made by the population script", True],
         12:[4, "Downcycle", "Downcycling converts discarded clothing into an item of lower value, like turning a t-shirt into old cleaning rags.", "https://slate.com/life/2024/11/donate-clothes-landfill-solution-rags-recylce.html ", "", "", None, 1,  "A page made by the population script", True],
         13:[4, "Upcycle", "Upcycling converts discarded clothing into a new useable form, increasing the product's value", "https://fashionjournal.com.au/fashion/designers-old-clothes/ ", "", "", None, 1,  "A page made by the population script", True],
-        14:[6, "Landfill", "Incineration is the process of burning clothing to dispose of unwanted materials.Landfill is the disposal of unwanted clothing, buried on a waste area of land. ", "73% of all textiles end up in landfill or incineration.https://www.letsrecycle.com/news/incineration-of-textiles-could-cost-uk-economy-200m/", "", "", None, 1,  "A page made by the population script", True],
-        15:[5, "Responsible Disposal", "All clothing and shoes can be taken to the clothing recycling bank. Put all clothing in a clean plastic bag before putting it into the clothing bank.", "https://glasgowgis.maps.arcgis.com/apps/webappviewer/index.html?id=345f389a91ff4f1fa193b24df832fb05https://glasgowgis.maps.arcgis.com/apps/webappviewer/index.html?id=345f389a91ff4f1fa193b24df832fb05 ", "", "", None, 1,  "A page made by the population script", True],
-        16:[5, "Sell", "You can sell your garments via second-hand access points, in person or online.", "https://www.vinted.co.uk/ https://www.depop.com/gb/", "", "", None, 1,  "A page made by the population script", True],
-        17:[5, "Pass It On", "When donating to charity, think, would you wear it? ", "https://www.clothingcollective.org/post/the-do-s-and-don-ts-of-clothing-donations#:~:text=Clothes%20which%20are%20a%20little,have%20gone%20to%20better%20use. ", "", "", None, 1,  "A page made by the population script", True],
-        18:[6,"Landfill", "Throwing stuff away is bad.", "It could have been reused", "", "", None, 1, "A page made by the population script", True],
-    
+        14:[5, "Responsible Disposal", "All clothing and shoes can be taken to the clothing recycling bank. Put all clothing in a clean plastic bag before putting it into the clothing bank.", "https://glasgowgis.maps.arcgis.com/apps/webappviewer/index.html?id=345f389a91ff4f1fa193b24df832fb05https://glasgowgis.maps.arcgis.com/apps/webappviewer/index.html?id=345f389a91ff4f1fa193b24df832fb05 ", "", "", None, 1,  "A page made by the population script", True],
+        15:[5, "Sell", "You can sell your garments via second-hand access points, in person or online.", "https://www.vinted.co.uk/ https://www.depop.com/gb/", "", "", None, 1,  "A page made by the population script", True],
+        16:[5, "Pass It On", "When donating to charity, think, would you wear it? ", "https://www.clothingcollective.org/post/the-do-s-and-don-ts-of-clothing-donations#:~:text=Clothes%20which%20are%20a%20little,have%20gone%20to%20better%20use. ", "", "", None, 1,  "A page made by the population script", True],       
+        17:[6, "Landfill", "Incineration is the process of burning clothing to dispose of unwanted materials.Landfill is the disposal of unwanted clothing, buried on a waste area of land. ", "73% of all textiles end up in landfill or incineration.https://www.letsrecycle.com/news/incineration-of-textiles-could-cost-uk-economy-200m/", "", "", None, 1,  "A page made by the population script", True],
+        18:[1, "Charity Shops", "A sustainable place to shop for new clothes is charity shops.", "Many items of clothing don't need to be purchased brand new. Buying from charity shops reduces the number of new clothing needed and is often much cheaper than buying brand new!", "", "", None, 1,  "A page made by the population script", True],    
+        19:[1, "Online shopping", "Where possible, shop second-hand for clothes online on sites like Vinted or Depop instead of buying brand new clothes from fast fashion brands. ", "https://www.depop.com/gb/", "https://www.vinted.co.uk", "", None, 1,  "A page made by the population script", True],    
+        20:[1, "Sustainable shopping", "If you must buy a clothing item brand new, it is important to know which materials are the most sustainable. ", "Check out the Good on You Sustainability Checker app to find this out.", "", "", None, 1,  "A page made by the population script", True],    
+
     }
     
     for pageID, contents in pages.items():
