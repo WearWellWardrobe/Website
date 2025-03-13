@@ -25,12 +25,8 @@ from WearWellWardrobe import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', views.index, name='home'), # change the home part here to the log in
-    path('WearWellWardrobe/',include("WearWellWardrobe.urls")), # when its availbe
+    path('', views.index, name='home'), # Should now redirect to login page
+    path('WearWellWardrobe/',include("WearWellWardrobe.urls")), # Routes all links to the wearwellwardrobe url.py file
     path('api/', include(('WearWellWardrobe.urls', 'WearWellWardrobe'), namespace="WearWellWardrobe_api")),  # Route all API URLs to wear well wardrobe
-    #path('api_pages/', PageListView.as_view(), name='page-list'),
-    
+  
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
-
-#if settings.DEBUG:
-#    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

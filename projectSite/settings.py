@@ -30,6 +30,7 @@ SECRET_KEY = '+sb+(#p&tb9m9-$!*u+c0rd-7(uc19dh!zas-gii&7su1oqi!%'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+# allow all hosts, or at least the python anywhere address 
 ALLOWED_HOSTS = ['*']
 
 # enables iframes
@@ -64,12 +65,6 @@ MIDDLEWARE = [
 
 CORS_ALLOW_ALL_ORIGINS = True
 ROOT_URLCONF = 'projectSite.urls'
-
-# For production, replace  CORS.. = True with:
-# CORS_ALLOWED_ORIGINS = [
-#     "http://localhost:5173",  # React development server
-#     any other links that are allowed to us api
-# ]
 
 
 TEMPLATES = [
