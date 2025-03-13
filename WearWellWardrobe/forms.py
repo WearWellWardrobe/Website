@@ -10,6 +10,8 @@ class CustomImageInput(ClearableFileInput):
     template_name = "widgets/customImageForm.html"
 
 class PageForm(forms.ModelForm):
+#form for adding pages
+
     title = forms.CharField(max_length=128, label="Page Title", empty_value="Untitled",required=False, widget=forms.TextInput( attrs={'class': "titleStlye"}))
     content1 = forms.CharField(max_length=8000, label="Content 1", empty_value="", required=False, widget=forms.TextInput( attrs={'class': "textStyle"}))
     content2 = forms.CharField(max_length=8000, label="Content 2", empty_value="", required=False, widget=forms.TextInput( attrs={'class': "textStyle"}))
@@ -22,7 +24,6 @@ class PageForm(forms.ModelForm):
     ) 
     
     pageNotes = forms.CharField(max_length=4096, label="Notes for the page", empty_value="",required=False,  widget=forms.TextInput(attrs={'class': 'pageNotes'}),)
-    #deletable = forms.BooleanField(label="Is this Page deletable?",required=False, ) # probably should not be availible for Django site
     displayStyle = forms.IntegerField(
         label="Display Style (Min 1, Max 6)",
         required=True,
@@ -46,8 +47,7 @@ class PageForm(forms.ModelForm):
             "displayStyle",
                  
         )
-        
-# beginings of an edit categroy name form -> not actually used yet
+
 class EditCategoryForm(forms.ModelForm):
     name = forms.CharField(max_length=128, label="Category Title", required=False, widget=forms.TextInput( attrs={'class': "catNameStyle"}))
     
@@ -58,12 +58,11 @@ class EditCategoryForm(forms.ModelForm):
 
 
 class EditPageForm(forms.ModelForm):
+# form for editing pages. 
 
+# choices for the display style so the dropdown looks nicer
     STYLE_CHOICES = [(1, "Style 1"),(2, "Style 2"),(3, "Style 3"),(4, "Style 4"),(5, "Style 5"),]
-    
- #   displayStyle = forms.ChoiceField(choices=STYLE_CHOICES,label="Space Style",  required=True,
- #           widget=forms.TextInput(attrs={'class': 'displayStyle'}),)
-  
+
     displayStyle = forms.IntegerField(
         label="Display Style (Min 1, Max 6)",
         required=True,
@@ -113,11 +112,12 @@ class EditPageForm(forms.ModelForm):
             "content4",
             "img1",
             "pageNotes",
-            "deletable",
             "category",
         )
-    
+        exclude = ("deletable",)
 
+
+# User login / register stuff here
 class UserForm(forms.ModelForm):
     password = forms.CharField(widget=forms.PasswordInput())
     class Meta:

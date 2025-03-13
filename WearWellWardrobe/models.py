@@ -13,17 +13,10 @@ import uuid
 class Category(models.Model):
     name = models.CharField(max_length=128)
     ID = models.AutoField(primary_key=True, unique=True)
-    
-    # if redoing teh DB, add extra potentiul colour feild for each categroy
-    #colour = models. ---- something here.....
-    
-    
+# could perhaps include a colour field here
     def __str__(self):
         return self.name
-        
- 
-  # The admin Side of it adds 's' to the end of the string. 
-  #Here is allows you to change the plural of it
+
     class Meta:
         verbose_name_plural = 'Categories'
         
@@ -41,11 +34,10 @@ class Page(models.Model):
     img1 = models.ImageField(upload_to="contentPhotos/",default="",null=True, blank=True)
     
     displayStyle = models.IntegerField(default=1)   # for react to know which page to make the content display in.
-                                                    # 0 is probably for those that are part of the flow chartss
+                                                   
     slug = models.SlugField(default="",unique=True,null=True, blank=True)
     pageNotes = models.CharField(max_length=4096,default="",null=True, blank=True) # a field to allow notes to display on editing page, 
-            #such as this page is for a flow char or where this page is acessable from 
-    deletable =  models.BooleanField(default=True) # Possible issue - false means it can be deleted, due to an unknown issue when automatically puting this field in.
+    deletable =  models.BooleanField(default=True) # When the false is True, it cannot be deleted. this is due to some other issue somewhere...
     
     # for question feilds, title = Question, and content1->4 are the options text/data
         # probably depends on how we want to alter th pages later..

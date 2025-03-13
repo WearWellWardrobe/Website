@@ -24,7 +24,7 @@ from rest_framework.generics import ListAPIView
 from rest_framework.response import Response
 from rest_framework import status
 
-# from other pages
+# from other pages within the site
 from WearWellWardrobe.models import Category, Page
 from WearWellWardrobe.serializers import PageSerializer, ItemSerializer
 from WearWellWardrobe.forms import PageForm, EditPageForm, EditCategoryForm, UserForm, UserProfileForm
@@ -32,14 +32,15 @@ from WearWellWardrobe.forms import PageForm, EditPageForm, EditCategoryForm, Use
 
 
 def index(request):
+# the main page that all basic entry requests are sent to
     return render(request, "login.html")
 
 
-# log in required for the rest of these -> once its set up
-
-# the main page -> basically wants everything
+# log in should be required for the rest of these
 
 def home(request):
+# the main home page - lists everything
+
     categories = Category.objects.all()
     context_dict = {'category': categories}
     try:
@@ -55,19 +56,19 @@ def home(request):
 
 
 def viewPage(request, pageSlug):
-# code that view the page -> can probably be deleted 
+# shows each page, but not in use?
+
     context = {}
     try:
         pageData = Page.objects.get(slug=pageSlug)
         context["page"] = pageData
     except Page.DoesNotExist:
         context["page"] = None
-    #  can insert stuff about redirecting here
     return render(request, "", context=context)
 
-# editPage view -> redirect back to home page once done
+
 def editPage(request, pageSlug):
-    
+# editPage view -> redirect back to home page once done    
     context = {}
     try:
         pageData = Page.objects.get(slug=pageSlug)
@@ -118,9 +119,13 @@ def addPage(request):
     
     
 def doneCategory(request):
+# a holder page for once the category has been edited. maybe have it redirect back to edit category
     return render(request, "categroyDone.html")
 
 def editCategory(request, catSlug):
+# this page appears in an iframe tag that allows the user to edit the category. acts like a dropdown box, but is an actual page
+# requires data about the category it is responsible for
+
     context = {}
     try:
         catData = Category.objects.get(ID=catSlug)
@@ -149,8 +154,9 @@ def editCategory(request, catSlug):
         
         
         
-# delete request?
+# delete request
 def deletePage(request, pageSlug):
+# perhaps put some validation within this view to see if the page is actually alowed to be deleted, and not a user getting around the URLs
     pageData = Page.objects.get(slug=pageSlug)
 
     if request.method == "POST":
@@ -160,6 +166,7 @@ def deletePage(request, pageSlug):
     return render(request, "delete.html", {"page": pageData})
    
 class PageGet(APIView):
+# the main API to get all the page data
     def get(self, request):
         pages = Page.objects.all()
         serializer = ItemSerializer(pages, many=True)
@@ -167,16 +174,6 @@ class PageGet(APIView):
         response['Access-Control-Allow-Origin'] = '*'  
         return response
         
-    # below is code that could allow data sent into the DB, but ive commented it out
-    #    to disable it for now
-    
-    #def post(self, request):
-    #    serializer = ItemSerializer(data=request.data)
-    #    if serializer.is_valid():
-    #        serializer.save()
-    #        return Response(serializer.data, status=status.HTTP_201_CREATED)
-    #    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
 
 class PageListView(ListAPIView):
     queryset = Page.objects.all()
@@ -193,6 +190,7 @@ class RecordDetail(APIView):
         
         
 def register(request):
+# sign up page
     registered = False
     if request.method == 'POST':
         user_form = UserForm(request.POST)
@@ -216,6 +214,7 @@ def register(request):
     return render(request,'register.html',context = {'user_form': user_form, 'profile_form': profile_form, 'registered': registered})
 
 def user_login(request):
+# sign in page
     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
