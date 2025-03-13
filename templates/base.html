@@ -25,16 +25,10 @@
       
 
         <script src=""></script>
-                <!-- Not sure if we want all javascript in one file or multiple? -->
+                <!-- Not sure if we want all javascript in one file or multiple? So far, its all in seperate files -->
         <script src=""></script>
-
-	<!-- Custom block header stuff here-->
     </head>
 	<body style="background-color:#f2f3f2">
-		
-		
-		
-		<!-- Probably need to chuck this styling into a css file-->
         <div id="main-content" style="
 			margin-left:3rem;
 			background-color:#ffffff;
@@ -44,6 +38,7 @@
 			position: relative;
 		">
 			{% block body_block %}
+				<!-- Everything that is showing on pages go here -->
 			{% endblock %}
         </div>
 		

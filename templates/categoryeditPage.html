@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <!---->
 {% load static %}
-
+<!-- Not extending from base.html as its limited in size and usage. not folloing the same stlyes either-->
 
 <html>	
     <link rel="shortcut Icon" href="{% static 'favicon.ico' %}">
@@ -11,22 +11,10 @@
 			Wear Well Wardrobe - Edit Category
 		</title>
 
-        <!-- Mobile scaling -->
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-
-		<!-- Link to the Icons style sheet -->
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-		
-        <!-- CSS is now in static - though unsure if its acutally working -->
         <link rel="stylesheet" href="{% static 'styles.css' %}">
 
-      
-
-        <script src=""></script>
-                <!-- Not sure if we want all javascript in one file or multiple? -->
-        <script src=""></script>
-
-	<!-- Custom block header stuff here-->
     </head>
 
 	<body style="height:10rem">
@@ -68,7 +56,6 @@
 	
 	<div id="categoryEditPage">
 		<h3>Edit Category</h3>
-		<!-- may require a slug in this... how to obtain said slug?  -->
 		<form id="EditCategoryForm" class="theForm" enctype="multipart/form-data" method="post" action="{% url 'WearWellWardrobe:editCategory' category.ID %}">
 			{% csrf_token %}	
 			{{form.name}}<br><br>

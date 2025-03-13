@@ -172,7 +172,7 @@ About
 		location.reload();
 	}
 
-	// hepl button open/close functions
+	// help button open/close functions
 	function helpOpen() {
 		document.getElementById("shadedBox").style.display = "block";
 	}
@@ -181,6 +181,8 @@ About
 	}
 </script>
 
+
+<!-- a floating container to have the help box in -->
 <div id="shadedBox" onclick="helpClose()">
 	<div id="helpBox">
 		<h2> Help </h2>
@@ -227,6 +229,7 @@ About
 	<hr>
 
 	<table style="width:100%;">
+	<!-- A list of all the categories, and boxes to edit them-->
 		<tr class='container'>
 			{% for cat in category %}
 			{% if cat.ID %}
@@ -242,7 +245,7 @@ About
 				</iframe>
 			</div>
 			{% else %}
-			<td class="categroyBoxes">Invalid Category (No ID)</td>
+				<td class="categroyBoxes">Invalid Category (No ID)</td> <!-- Should never occur, but just in case-->
 			{% endif %}
 			{% endfor %}
 		</tr>
@@ -251,7 +254,6 @@ About
 
 	<br>
 	<hr>
-	<!-- Enter the database below-->
 	<div style="display:block;">
 
 		<table style="padding:3px">
@@ -266,27 +268,27 @@ About
 
 			</tr>
 			{% if pages %}
+				<!-- The main database table -->
+				{% for page in pages %}
+				<tr class="{% if forloop.counter|divisibleby:2 %}styled{% else %}plain{% endif %} standardTableCells">
+					<td class="standardTableCells">{{ page.category }}</td>
+					<td class="standardTableCells">{{ page.title }}</td>
+					<td class="standardTableCells" style="overflow:hidden;max-width:30rem">{{ page.content1 }}</td>
+					<td class="standardTableCells" style="overflow:hidden;max-width:30rem">{{page.content2}}</td>
+					<td class="wideCell"><a href="{% url 'WearWellWardrobe:editPage' page.slug %}"> <i
+								class="fa fa-paint-brush"> </i></a></td>
 
-			{% for page in pages %}
-			<tr class="{% if forloop.counter|divisibleby:2 %}styled{% else %}plain{% endif %} standardTableCells">
-				<td class="standardTableCells">{{ page.category }}</td>
-				<td class="standardTableCells">{{ page.title }}</td>
-				<td class="standardTableCells" style="overflow:hidden;max-width:30rem">{{ page.content1 }}</td>
-				<td class="standardTableCells" style="overflow:hidden;max-width:30rem">{{page.content2}}</td>
-				<td class="wideCell"><a href="{% url 'WearWellWardrobe:editPage' page.slug %}"> <i
-							class="fa fa-paint-brush"> </i></a></td>
 
+					{% if page.deletable %}<!-- This is what shows when the page is not deletable -->
+					<td class="wideCell"></td>
 
-				{% if page.deletable %}<!-- This is what shows when the page is not deletable -->
-				<td class="wideCell"></td>
+					{% else %}
+					<td class="wideCell"><a href="{% url 'WearWellWardrobe:deletePage' page.slug %}"> <i
+								class="fa fa-trash"> </i></a></td>
+					{% endif%}
 
-				{% else %}
-				<td class="wideCell"><a href="{% url 'WearWellWardrobe:deletePage' page.slug %}"> <i
-							class="fa fa-trash"> </i></a></td>
-				{% endif%}
-
-			</tr>
-			{% endfor %}
+				</tr>
+				{% endfor %}
 			{% else %}
 			<tr>
 				<td class="standardTableCells"></td>

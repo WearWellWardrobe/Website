@@ -149,18 +149,16 @@
 		</div>
 	</div>
 	<script>
+	<!-- Basically the same code as the editPage.html file has. -->
 		// This first bit detects a change in the drop down box
 		document.addEventListener("DOMContentLoaded", function () {
 			const displayStyleField = document.getElementById("id_displayStyle");
 
-			// Listen for input changes on the integer field
 			displayStyleField.addEventListener("input", function () {
-				const value = parseInt(displayStyleField.value, 10); // Parse the input as an integer
-				checkDisplayStyle(value); // Pass the integer value to the function
+				const value = parseInt(displayStyleField.value, 10); 
+				checkDisplayStyle(value); 
 			});
-
-			// Call the function initially with the field's current value
-			const initialValue = parseInt(displayStyleField.value, 10); // Parse the initial value as an integer
+			const initialValue = parseInt(displayStyleField.value, 10); 
 			checkDisplayStyle(initialValue);
 		});
 		
