@@ -6,19 +6,71 @@ Register
 {% endblock %}
 
 {% block body_block %}
-<h1>Register here</h1>
-{% if registered %}
-<strong>thank you for registering!</strong>
-<a href="{% url 'home' %}">Return to the homepage.</a><br />
-{% else %}
-<strong>Register here</strong><br />
-<form id="user_form" method="post" action="{% url 'WearWellWardrobe:register' %}" enctype="multipart/form-data">
-
-    {% csrf_token %}
-
-    {{ user_form.as_p }}
-    {{ profile_form.as_p }}
-    <input type="submit" name="submit" value="Register" />
-</form>
-{% endif %}
+<style>
+.registerBoxes{
+	padding:5px;
+	font-size:17px;
+	border: 2px solid #dddddd;
+	border-radius:8px;
+	background-color:#fefefe;
+	margin:3px;
+	width:60ch;
+}
+.regTag{
+	padding:5px;
+	font-size:17px;
+	background-color:#fefefe;
+	margin:3px;
+	width:10ch; /* ch means chracters, ie, 10 characters long*/
+}
+#registerSubmitBtn{
+	width:100%;
+	padding:0.7rem;
+	font-weigt:Bold;	
+	font-size:17px;
+	border: 2px solid #004400;
+	border-radius:8px;
+	background-color:#cce0ff;
+	margin:3px;
+}
+#registerSubmitBtn:hover{
+	cursor: pointer;
+	background-color:#b3d1ff;
+}
+</style>
+<!-- Page form is rendered in a table to get all the sections to appear the same size. -->
+	<div id="registerPage">
+		<h1 style="padding:4px;">Register here</h1>
+		{% if registered %}
+			<strong>Thank you for registering!</strong>
+			<a href="{% url 'home' %}">Return to the homepage.</a><br />
+		{% else %}
+			
+			<form id="user_form" method="post" action="{% url 'WearWellWardrobe:register' %}" enctype="multipart/form-data">
+				<table>
+					{% for field in user_form %}
+					<tr>
+						<td class="regTag" ><label for="{{ field.id_for_label }}">{{ field.label }}</label></td>
+						<td  class="">{{ field }}</td>
+						<td class="error">{{ field.errors }}</td>
+					</tr>
+					{% endfor %}
+					
+					{% for field in profile_form %}
+					<tr>
+						<td class="regTag" ><label for="{{ field.id_for_label }}">{{ field.label }}</label></td>
+						<td class="">{{ field }}</td>
+						<td class="error">{{ field.errors }}</td>
+					</tr>
+					{% endfor %}
+					
+					<tr>
+						<td colspan="3" style="text-align: center;">
+							<input type="submit" name="submit" id="registerSubmitBtn" value="Register" />
+						</td>
+					</tr>
+				</table>
+			</form>
+		{% endif %}
+	</div>
 {% endblock %}
