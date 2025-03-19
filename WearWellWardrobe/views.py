@@ -24,9 +24,10 @@ from rest_framework.generics import ListAPIView
 from rest_framework.response import Response
 from rest_framework import status
 
+
 # from other pages within the site
 from WearWellWardrobe.models import Category, Page
-from WearWellWardrobe.serializers import PageSerializer, ItemSerializer
+from WearWellWardrobe.serializers import PageSerializer, ItemSerializer, CategorySerializer
 from WearWellWardrobe.forms import PageForm, EditPageForm, EditCategoryForm, UserForm, UserProfileForm
 
 
@@ -123,9 +124,6 @@ def doneCategory(request):
     return render(request, "categroyDone.html")
 
 def editCategory(request, catSlug):
-# this page appears in an iframe tag that allows the user to edit the category. acts like a dropdown box, but is an actual page
-# requires data about the category it is responsible for
-
     context = {}
     try:
         catData = Category.objects.get(ID=catSlug)
@@ -154,6 +152,7 @@ def editCategory(request, catSlug):
         
         
         
+
 # delete request
 def deletePage(request, pageSlug):
 # perhaps put some validation within this view to see if the page is actually alowed to be deleted, and not a user getting around the URLs
@@ -161,7 +160,7 @@ def deletePage(request, pageSlug):
 
     if request.method == "POST":
         pageData.delete()
-        return redirect("WearWellWardrobe:home") 
+        return redirect("WearWellWardrobe:home")
 
     return render(request, "delete.html", {"page": pageData})
    
@@ -174,21 +173,18 @@ class PageGet(APIView):
         response['Access-Control-Allow-Origin'] = '*'  
         return response
         
-
 class PageListView(ListAPIView):
     queryset = Page.objects.all()
     serializer_class = PageSerializer
-        
-class RecordDetail(APIView):
-    def get(self, request, pk, format=None):
-        # Fetch the record by primary key (pk)
-        item = get_object_or_404(Item, pk=pk)
-        
-        # Serialize the item and return as JSON
-        serializer = ItemSerializer(item)
-        return Response(serializer.data)        
-        
-        
+
+class CategoryGet(APIView):
+    def get(self, request):
+        categories = Category.objects.all()
+        serializer = CategorySerializer(categories, many=True)
+        response = Response(serializer.data)
+        response['Access-Control-Allow-Origin'] = '*'  
+        return response
+
 def register(request):
 # sign up page
     registered = False

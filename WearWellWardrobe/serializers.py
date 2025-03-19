@@ -17,3 +17,9 @@ class PageSerializer(serializers.ModelSerializer):
         model = Page
         fields = '__all__'  # Includes all model fields
         
+
+class CategorySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Category
+        fields = ['ID','name']
+

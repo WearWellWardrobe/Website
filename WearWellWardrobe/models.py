@@ -14,9 +14,12 @@ class Category(models.Model):
     name = models.CharField(max_length=128)
     ID = models.AutoField(primary_key=True, unique=True)
 # could perhaps include a colour field here
+
     def __str__(self):
         return self.name
-
+ 
+  # The admin Side of it adds 's' to the end of the string. 
+  #Here is allows you to change the plural of it
     class Meta:
         verbose_name_plural = 'Categories'
         
