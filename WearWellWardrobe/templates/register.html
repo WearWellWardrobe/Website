@@ -47,6 +47,7 @@ Register
 		{% else %}
 			
 			<form id="user_form" method="post" action="{% url 'WearWellWardrobe:register' %}" enctype="multipart/form-data">
+				{% csrf_token %}
 				<table>
 					{% for field in user_form %}
 					<tr>
