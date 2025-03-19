@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
 
-
+<!-- make the background fade out, make the box solid colour, get rid of cross and if you click anywhwere on the background then that clsoes it -->
 {% block title_block %}
 About
 {% endblock %}
@@ -11,10 +11,7 @@ About
 	:root {
 		--smallCellSize: 0.8rem;
 	}
-
-
-	.standardTableCells {
-		padding: 0.23rem;
+	padding: 0.23rem;
 
 
 	}
@@ -93,13 +90,16 @@ About
 	.catPagesBox {
 		display: none;
 		/*initally none, but javascript makes them appear*/
-		width: 17rem;
+		width: 17.2rem;
 		height: 15rem;
-		border: 1px soild black;
+		border-radius:5px;
+		padding:6px;
 	}
 
 	.catPages {
 		border: none;
+		width:100%;
+		height:100%;
 	}
 
 	.container {
@@ -152,6 +152,28 @@ About
 		font-size: 3rem;
 	}
 
+	.categoryStyle {
+		display: block;
+		position: fixed;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%, -50%);
+		z-index: 1000;
+		background-color: white;
+	}
+
+	#dimOverlay {
+		position: fixed;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		background-color: rgba(0, 0, 0, 0.4);
+		z-index: 999;
+		display: none;
+	}
+
+
 	#titleBox {
 		display: block;
 		height: 4rem;
@@ -163,13 +185,18 @@ About
 </style>
 <script>
 	function openCategoryIcon(ID) {
-		document.getElementById(ID).style.display = "block";
+		const element = document.getElementById(ID);
+		element.classList.add("categoryStyle");
+		document.getElementById("dimOverlay").style.display = "block";
+
 
 	}
 
 	function closeCategoryIcon(ID) {
 		document.getElementById(ID).style.display = "none";
 		location.reload();
+		document.getElementById("dimOverlay").style.display = "none";
+
 	}
 
 	// help button open/close functions
@@ -227,31 +254,35 @@ About
 
 	<br>
 	<hr>
-
+	{% if category %}
 	<table style="width:100%;">
-	<!-- A list of all the categories, and boxes to edit them-->
-		<tr class='container'>
+		<!-- A list of all the categories, and boxes to edit them-->
+		
+
+		<tr class='container' onclick="closeCategoryIcon('categoryEditPage{{cat.ID}}')">
 			{% for cat in category %}
 			{% if cat.ID %}
-
+			<div id="dimOverlay" onclick="closeCategoryIcon('categoryEditPage{{cat.ID}}')"></div>
 			<td class="categroyBoxes" onclick="openCategoryIcon('categoryEditPage{{cat.ID}}')">{{cat.name}}</td>
 
-			<div id="categoryEditPage{{cat.ID}}" class="catPagesBox">
-				<div onclick="closeCategoryIcon('categoryEditPage{{cat.ID}}')"> <i class="fa fa-close"></i> </div>
+			<div id="categoryEditPage{{cat.ID}}" class="catPagesBox" >
+				<!--<div > <i class="fa fa-close"></i> </div>-->
 
 				<iframe class="catPages" src="{% url 'WearWellWardrobe:editCategory' cat.ID %}" width="90%" height="90%"
-					style="border:1px solid black;">
+					>
 					Your browser does not support iframes.
 				</iframe>
 			</div>
 			{% else %}
-				<td class="categroyBoxes">Invalid Category (No ID)</td> <!-- Should never occur, but just in case-->
+			<td class="categroyBoxes">Invalid Category (No ID)</td> <!-- Should never occur, but just in case-->
 			{% endif %}
 			{% endfor %}
 		</tr>
 
 	</table>
-
+	{% else %}
+	<p>No categories found in Database</p>
+	{% endif %}
 	<br>
 	<hr>
 	<div style="display:block;">
@@ -268,27 +299,27 @@ About
 
 			</tr>
 			{% if pages %}
-				<!-- The main database table -->
-				{% for page in pages %}
-				<tr class="{% if forloop.counter|divisibleby:2 %}styled{% else %}plain{% endif %} standardTableCells">
-					<td class="standardTableCells">{{ page.category }}</td>
-					<td class="standardTableCells">{{ page.title }}</td>
-					<td class="standardTableCells" style="overflow:hidden;max-width:30rem">{{ page.content1 }}</td>
-					<td class="standardTableCells" style="overflow:hidden;max-width:30rem">{{page.content2}}</td>
-					<td class="wideCell"><a href="{% url 'WearWellWardrobe:editPage' page.slug %}"> <i
-								class="fa fa-paint-brush"> </i></a></td>
+			<!-- The main database table -->
+			{% for page in pages %}
+			<tr class="{% if forloop.counter|divisibleby:2 %}styled{% else %}plain{% endif %} standardTableCells">
+				<td class="standardTableCells">{{ page.category }}</td>
+				<td class="standardTableCells">{{ page.title }}</td>
+				<td class="standardTableCells" style="overflow:hidden;max-width:30rem">{{ page.content1 }}</td>
+				<td class="standardTableCells" style="overflow:hidden;max-width:30rem">{{page.content2}}</td>
+				<td class="wideCell"><a href="{% url 'WearWellWardrobe:editPage' page.slug %}"> <i
+							class="fa fa-paint-brush"> </i></a></td>
 
 
-					{% if page.deletable %}<!-- This is what shows when the page is not deletable -->
-					<td class="wideCell"></td>
+				{% if page.deletable %}<!-- This is what shows when the page is not deletable -->
+				<td class="wideCell"></td>
 
-					{% else %}
-					<td class="wideCell"><a href="{% url 'WearWellWardrobe:deletePage' page.slug %}"> <i
-								class="fa fa-trash"> </i></a></td>
-					{% endif%}
+				{% else %}
+				<td class="wideCell"><a href="{% url 'WearWellWardrobe:deletePage' page.slug %}"> <i
+							class="fa fa-trash"> </i></a></td>
+				{% endif%}
 
-				</tr>
-				{% endfor %}
+			</tr>
+			{% endfor %}
 			{% else %}
 			<tr>
 				<td class="standardTableCells"></td>
@@ -301,6 +332,8 @@ About
 			{% endif %}
 		</table>
 	</div>
+
+
 	<hr>
 </div>
 {% endblock %}
