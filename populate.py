@@ -16,8 +16,8 @@ def populate():
         "Maintain":{'name':'Maintain'},     # 3
         "Adaptation":{'name':"Adaptation"}, # 4    
         "Disposal":{'name':'Disposal'},     # 5
-
         "Landfill":{'name':'Landfill'},     # 6
+        "Help":{'name':'Help'},             # 7
     }
     
     for k,v in categories.items():
@@ -48,7 +48,10 @@ def populate():
         18:[1, "Charity Shops", "A sustainable place to shop for new clothes is charity shops.", "Many items of clothing don't need to be purchased brand new. Buying from charity shops reduces the number of new clothing needed and is often much cheaper than buying brand new!", "", "", None, 1,  "A page made by the population script", True],    
         19:[1, "Online shopping", "Where possible, shop second-hand for clothes online on sites like Vinted or Depop instead of buying brand new clothes from fast fashion brands. ", "https://www.depop.com/gb/", "https://www.vinted.co.uk", "", None, 1,  "A page made by the population script", True],    
         20:[1, "Sustainable shopping", "If you must buy a clothing item brand new, it is important to know which materials are the most sustainable. ", "Check out the Good on You Sustainability Checker app to find this out.", "", "", None, 1,  "A page made by the population script", True],    
-
+        21: [7, "About Us", "Learn more about our mission, values, and the team behind WearWellWardrobe.", "", "", "", None, 1, "A page made by the population script", True],    
+        22: [7, "Contact", "Get in touch with us for any queries, support, or feedback. We’re here to help!", "", "", "", None, 1, "A page made by the population script", True],    
+        23: [7, "FAQs", "Find answers to the most common questions about using WearWellWardrobe.", "", "", "", None, 1, "A page made by the population script", True],    
+        24: [7, "How to Use", "A step-by-step guide on how to make the most of WearWellWardrobe's features.", "", "", "", None, 1, "A page made by the population script", True],     
     }
     
     for pageID, contents in pages.items():
